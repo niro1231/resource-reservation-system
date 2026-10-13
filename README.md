@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Resource Reservation Management System
 
-## Getting Started
+A full-stack web application developed for the PrimeWave Lab (Pvt) Ltd Software Engineering Internship Assessment. The system manages shared resources and reservations while preventing overlapping bookings for the same resource.
 
-First, run the development server:
+## Features
+
+- Dashboard with resource and reservation statistics
+- Create, view, update, deactivate, and reactivate resources
+- Create and view reservations
+- Prevent overlapping confirmed reservations for the same resource
+- Cancel reservations
+- Validate reservation details and time ranges
+- Filter reservations by status
+
+## Technology Stack
+
+- **Frontend:** Next.js, React, TypeScript, Tailwind CSS
+- **Backend:** Next.js App Router API routes
+- **Database:** PostgreSQL
+- **ORM:** Prisma
+- **Validation:** Zod
+- **Icons:** Lucide React
+
+## Prerequisites
+
+- Node.js (LTS recommended)
+- npm
+- PostgreSQL
+
+## Installation and Setup
+
+1. Clone the repository:
+
+   ```bash
+   git clone YOUR_GITHUB_REPOSITORY_URL
+   cd resource-reservation-system
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file in the project root:
+
+   ```env
+   DATABASE_URL="postgresql://USERNAME:PASSWORD@localhost:5432/resource_reservation_db"
+   ```
+
+   Replace `USERNAME` and `PASSWORD` with your local PostgreSQL credentials.
+
+4. Apply the database migrations:
+
+   ```bash
+   npx prisma migrate deploy
+   ```
+
+5. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000).
+
+## Useful Commands
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx prisma studio
+npx tsc --noEmit
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Main Application Pages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `/` — Dashboard
+- `/resources` — Resource management
+- `/reservations` — Reservation management
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Reservation Conflict Prevention
 
-## Learn More
+The system checks for overlapping confirmed reservations for the same resource. Reservation creation uses a database transaction with serializable isolation and retry handling for transaction conflicts.
 
-To learn more about Next.js, take a look at the following resources:
+## Environment Variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The application requires `DATABASE_URL`. Do not commit your `.env` file or database credentials to GitHub.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```text
+src/
+  app/
+    api/
+      resources/
+      reservations/
+    resources/
+    reservations/
+  lib/
+    prisma.ts
+    validations.ts
+    reservation-validations.ts
+prisma/
+  schema.prisma
+  migrations/
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
